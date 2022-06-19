@@ -13,7 +13,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: backup
-        image: ip-updater:latest
+        image: ip-updater:0.1.1
         volumeMounts:
         - mountPath: /etc/ip-updater.yaml
           subPath: ip-updater.yaml

@@ -13,17 +13,18 @@ $ make docker REGISTRY=your.registry
 
 ### 2. Create Kustomization to install into Kubernetes
 
-#### `kustomize.yaml`
+#### `kustomization.yaml`
 ```yaml
-kind: Kustomize
-resources: git::github.com/chrispyduck/ip-updater.git?ref=v0.1
+kind: Kustomization
+resources: 
+- github.com/chrispyduck/ip-updater.git?ref=0.1.1
 images:
 - name: ip-updater
-imageName: your.registry/ip-updater
+  newName: your.registry/ip-updater
 secretGenerator:
 - name: ip-updater
-files:
-- ip-updater.yaml
+  files:
+  - ip-updater.yaml
 ``` 
 
 #### `ip-updater.yaml`
