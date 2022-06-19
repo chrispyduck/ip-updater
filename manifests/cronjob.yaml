@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ip-updater
+spec:
+  schedule: "0 */2 * * *"
+  concurrencyPolicy: Forbid
+  ttlSecondsAfterFinished: 7200 # keep one job
+  template:
+    metadata:
+      name: ip-updater
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: backup
+        image: ip-updater:latest
+        volumeMounts:
+        - mountPath: /etc/ip-updater.yaml
+          subPath: ip-updater.yaml
+          name: config
+      volumes:
+      - name: config
+        secret:
+          secretName: ip-updater
