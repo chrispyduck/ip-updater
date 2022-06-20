@@ -1,24 +1,24 @@
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
   name: ip-updater
 spec:
   schedule: "0 */2 * * *"
   concurrencyPolicy: Forbid
-  ttlSecondsAfterFinished: 7200 # keep one job
-  template:
-    metadata:
-      name: ip-updater
+  jobTemplate:
     spec:
-      restartPolicy: Never
-      containers:
-      - name: backup
-        image: ip-updater:0.1.1
-        volumeMounts:
-        - mountPath: /etc/ip-updater.yaml
-          subPath: ip-updater.yaml
-          name: config
-      volumes:
-      - name: config
-        secret:
-          secretName: ip-updater
+      ttlSecondsAfterFinished: 7200 # keep one job
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: backup
+            image: ip-updater:0.1.2
+            volumeMounts:
+            - mountPath: /etc/ip-updater.yaml
+              subPath: ip-updater.yaml
+              name: config
+          volumes:
+          - name: config
+            secret:
+              secretName: ip-updater
