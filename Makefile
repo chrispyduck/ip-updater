@@ -1,4 +1,4 @@
-VERSION = 0.1
+VERSION = 0.1.2
 REGISTRY = your.registry
 IMAGE = chrispyduck/ip-updater
 
