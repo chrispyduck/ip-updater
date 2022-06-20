@@ -1,11 +1,12 @@
-FROM registry1.dso.mil/ironbank/google/golang/golang-1.18 AS base
-
-FROM base AS build 
+FROM golang:alpine AS build
 WORKDIR /work 
 COPY * /work/
-RUN --mount=type=cache,target=/go,uid=1001,gid=1001 go get -d -v 
-RUN --mount=type=cache,target=/tmp,uid=1001,gid=1001 go build -v .
+RUN --mount=type=cache,target=/go go get -d -v 
+RUN --mount=type=cache,target=/tmp go build -v -ldflags="-w -s" .
+#RUN mkdir /out 
+#RUN mv -v /work/ip-updater /out/
 
-FROM base AS RUN
-COPY --from=build /work/ip-updater /bin
+FROM alpine:latest AS run
+WORKDIR /work
+COPY --from=build /work/ip-updater /bin/ip-updater
 ENTRYPOINT ["ip-updater"]
