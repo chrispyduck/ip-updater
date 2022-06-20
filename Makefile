@@ -1,4 +1,4 @@
-VERSION = 0.1.2
+VERSION = 0.2.0
 REGISTRY = your.registry
 IMAGE = chrispyduck/ip-updater
 
@@ -10,7 +10,8 @@ ip-updater:
 	go build -v .
 
 docker:
-	docker buildx build -t $(REGISTRY)/$(IMAGE):$(VERSION) . --progress plain
-
-push: docker 
-	docker push $(REGISTRY)/$(IMAGE):$(VERSION)
+	docker buildx build \
+		--platform arm64,amd64 \
+		--push \
+		-t $(REGISTRY)/$(IMAGE):$(VERSION) \
+		.

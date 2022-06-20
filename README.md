@@ -17,7 +17,7 @@ $ make docker REGISTRY=your.registry
 ```yaml
 kind: Kustomization
 resources: 
-- github.com/chrispyduck/ip-updater.git?ref=0.1.2
+- github.com/chrispyduck/ip-updater.git?ref=0.2.0
 images:
 - name: ip-updater
   newName: your.registry/ip-updater
